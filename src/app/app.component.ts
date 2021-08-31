@@ -1,3 +1,4 @@
+import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
@@ -5,4 +6,6 @@ import { Component } from '@angular/core';
   template: ` start `,
   styles: [],
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  ngOnInit(): void {}
+}
