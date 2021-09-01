@@ -1,26 +1,25 @@
-import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
-import { interval, Observer } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  template: `See console for output.`,
+  template: ``,
   styles: [],
 })
 export class AppComponent implements OnInit {
   ngOnInit(): void {
-    const observable$ = interval(1000);
-    const observer: Observer<number> = {
-      next: (x) => console.log(x),
-      complete: () => console.log('completed'),
-      error: (x) => console.log(x),
-    };
+    const observable = new Observable((subscriber) => {
+      subscriber.next(Math.random());
+    });
 
-    const observableCommingOutOfThePipe$ = observable$.pipe(
-      tap((x) => console.log(x)),
-      map((x) => x * 10)
-    );
-    const subscription = observableCommingOutOfThePipe$.subscribe(observer);
+    // subscription 1
+    observable.subscribe((data) => {
+      console.log(data); // 0.24957144215097515 (random number)
+    });
+
+    // subscription 2
+    observable.subscribe((data) => {
+      console.log(data); // 0.004617340049055896 (random number)
+    });
   }
 }
