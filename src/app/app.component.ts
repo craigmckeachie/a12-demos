@@ -2,6 +2,7 @@ import { OnInit, ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,5 +18,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     console.log(this.button); //ElementRef
     console.log(this.button?.nativeElement); //button
+    const clickEvents$ = fromEvent<Event>(this.button?.nativeElement, 'click');
+    clickEvents$.subscribe((event: Event) => console.log(event));
   }
 }
