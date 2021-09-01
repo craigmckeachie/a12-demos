@@ -16,7 +16,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     fromEvent<Event>(this.button?.nativeElement, 'click')
-      .pipe(switchMap(() => interval(1000)))
+      .pipe(
+        //restart the counter on every click
+        switchMap(() => interval(1000))
+      )
       .subscribe((x) => console.log(x));
   }
 }
