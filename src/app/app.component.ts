@@ -2,20 +2,21 @@ import { OnInit, ViewChild } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { AfterViewInit } from '@angular/core';
 import { Component } from '@angular/core';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  template: ` <button #myButton>Click Me</button> `,
+  template: ` <input type="text" #myInput /> `,
   styles: [],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('myButton') button: ElementRef | undefined = undefined;
+  @ViewChild('myInput') input: ElementRef | undefined = undefined;
 
-  ngOnInit(): void {
-    console.log(this.button); //undefined
-  }
+  ngOnInit(): void {}
   ngAfterViewInit(): void {
-    console.log(this.button); //ElementRef
-    console.log(this.button?.nativeElement); //button
+    const inputChangeEvents$ = fromEvent<InputEvent>(
+      this.input?.nativeElement,
+      'input'
+    ).subscribe((event: InputEvent) => console.log(event));
   }
 }
