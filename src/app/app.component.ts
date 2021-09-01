@@ -4,7 +4,7 @@ import { interval, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  template: ` See console for output. `,
+  template: `See console for output.`,
   styles: [],
 })
 export class AppComponent implements OnInit {
