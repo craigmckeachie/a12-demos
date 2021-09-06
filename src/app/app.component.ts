@@ -1,27 +1,19 @@
-import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  template: ` start `,
-  styles: [],
+  template: `
+    <app-parent></app-parent>
+  `,
+  styles: []
 })
-export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    const subject = new BehaviorSubject(123);
+export class AppComponent {}
 
-    // two new subscribers will get initial value => output: 123, 123
-    subject.subscribe(console.log);
-    subject.subscribe(console.log);
+// OnPush:
+//  component with changed input or event, causes check on itself (component) and all ancestors
+//  input "changes" then checks itself (component with input) and all ancestors
+//  event happens checks itself (component where event was raised, Ex. click) and all ancestors
 
-    // two subscribers will get new value => output: 456, 456
-    subject.next(456);
-
-    // new subscriber will get latest value (456) => output: 456
-    subject.subscribe(console.log);
-
-    // all three subscribers will get new value => output: 789, 789, 789
-    subject.next(789);
-  }
-}
+// Default:
+// input "changes" then the entire tree is checked
+// event triggered then the entire tree is checked
