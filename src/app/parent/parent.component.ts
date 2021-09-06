@@ -24,6 +24,7 @@ import { Component, OnInit, DoCheck } from '@angular/core';
 export class ParentComponent implements DoCheck {
   lastChanged: Date = new Date();
   anickname: string = '';
+  consistent_nickname = 'consistent nickname';
 
   ngDoCheck(): void {
     this.lastChanged = new Date();
@@ -32,5 +33,6 @@ export class ParentComponent implements DoCheck {
   onClick() {
     console.log('parent');
     this.anickname = 'nickname from parent';
+    // this.anickname = this.consistent_nickname;
   }
 }
