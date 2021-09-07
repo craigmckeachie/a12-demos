@@ -2,6 +2,7 @@ import {
   Component,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
 } from '@angular/core';
@@ -17,7 +18,7 @@ import {
   `,
   styles: [],
 })
-export class FruitListComponent implements OnInit, OnChanges {
+export class FruitListComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   fruits: string[] = [];
 
@@ -30,5 +31,9 @@ export class FruitListComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     console.log('OnInit');
+  }
+
+  ngOnDestroy(): void {
+    console.log('Destroyed');
   }
 }
