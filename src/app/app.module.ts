@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FruitListComponent } from './fruit-list/fruit-list.component';
+import { HelloWorldComponent } from './hello-world/hello-world.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FruitListComponent
+    FruitListComponent,
+    HelloWorldComponent
   ],
   imports: [
     BrowserModule,
