@@ -6,7 +6,7 @@ import { HelloWorldComponent } from './hello-world/hello-world.component';
 @Component({
   selector: 'app-root',
   template: `
-    <app-hello-world></app-hello-world>
+    <app-hello-world><h2 #nameContent>Bond, James Bond</h2> </app-hello-world>
     <app-fruit-list [fruits]="data" *ngIf="showList"></app-fruit-list>
     <button (click)="onClickChange()">Change List</button>
     <button (click)="onClickRemove()">Show/Remove List</button>
