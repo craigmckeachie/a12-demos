@@ -5,8 +5,7 @@ import { StepBComponent } from './step-b/step-b.component';
 import { StepCComponent } from './step-c/step-c.component';
 import { StepDComponent } from './step-d/step-d.component';
 import { StepEComponent } from './step-e/step-e.component';
-
-
+import { StepDirective } from './step.directive';
 
 @NgModule({
   declarations: [
@@ -14,10 +13,17 @@ import { StepEComponent } from './step-e/step-e.component';
     StepBComponent,
     StepCComponent,
     StepDComponent,
-    StepEComponent
+    StepEComponent,
+    StepDirective,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
+  exports: [
+    StepAComponent,
+    StepBComponent,
+    StepCComponent,
+    StepDComponent,
+    StepEComponent,
+    StepDirective,
+  ],
 })
-export class StepsModule { }
+export class StepsModule {}

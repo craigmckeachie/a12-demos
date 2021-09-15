@@ -1,20 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { StepComponent } from '../step.component';
 
 @Component({
   selector: 'app-step-a',
-  template: `
-    <p>
-      step-a works!
-    </p>
-  `,
-  styles: [
-  ]
+  template: ` <p>step-a works!</p> `,
+  styles: [],
 })
-export class StepAComponent implements OnInit {
+export class StepAComponent implements OnInit, StepComponent {
+  configuration: any;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
