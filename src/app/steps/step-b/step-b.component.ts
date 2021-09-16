@@ -3,7 +3,10 @@ import { StepComponent } from '../step.component';
 
 @Component({
   selector: 'app-step-b',
-  template: ` <p>step-b works!</p> `,
+  template: `
+    <p>step-b works!</p>
+    <div>{{ configuration.type }}</div>
+  `,
   styles: [],
 })
 export class StepBComponent implements OnInit, StepComponent {
