@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Photo } from './photo';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,11 @@ export class PhotoService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Photo[]> {
-    return this.http.get<Photo[]>('http://localhost:3000/photos');
+    return this.http.get<Photo[]>('http://localhost:3000/photos/wrong').pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return throwError('An error occured loading the photos.');
+      })
+    );
   }
 }
