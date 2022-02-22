@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, concat } from 'rxjs';
-import { retry, retryWhen, delay, take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Photo } from './photo';
+import { Photo } from './photo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +13,19 @@ export class PhotoService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Photo[]> {
-    return this.http.get<Photo[]>('http://localhost:3000/photos').pipe(
-      // retry(3)
-      retryWhen((error) => {
-        return error.pipe(
-          delay(1000),
-          take(5),
-          // tap(() => console.log(error)),
-          (o) => concat(o, throwError('An error occurred loading the photos.'))
-        );
+    return this.http.get<Photo[]>('http://localhost:3000/photos/').pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return throwError('An error occured loading the photos.');
+      })
+    );
+  }
+
+  getAllByAlbum(albumId: number): Observable<Photo[]> {
+    return this.http.get<Photo[]>(`http://localhost:3000/albums/${albumId}/photos/`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        return throwError('An error occured loading the photos.');
       })
     );
   }
