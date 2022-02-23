@@ -23,20 +23,27 @@ export class AppComponent implements OnInit {
     private photoService: PhotoService
   ) {}
   ngOnInit(): void {
-    let data: any = {};
+    let user: User;
     this.userService
-      // .findByEmail('Sincere@april.biz')
-      .findByEmail('Lucio_Hettinger@annie.ca')
+      .findByEmail('Sincere@april.biz')
+      // .findByEmail('Lucio_Hettinger@annie.ca')
       .pipe(
-        map((user) => {
-          data.user = user;
+        map((userData) => {
+          user = new User(
+            userData.id,
+            userData.name,
+            userData.username,
+            userData.email,
+            userData.phone,
+            userData.website
+          );
           return user;
         }),
         concatMap((user) => {
           return this.albumService.getAllByUser(user.id);
         }),
         map((albums) => {
-          data.user.albums = albums;
+          user.albums = albums;
           return albums;
         }),
         concatMap((albums) => {
@@ -44,11 +51,11 @@ export class AppComponent implements OnInit {
           return this.photoService.getAllByAlbum(albumId);
         }),
         map((photos) => {
-          data.user.albums[0].photos = photos;
-          return data;
+          user.albums[0].photos = photos;
+          return user;
         })
       )
-      .subscribe((data) => console.log(data));
+      .subscribe((user) => console.log(user));
   }
 }
 

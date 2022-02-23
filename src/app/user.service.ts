@@ -24,7 +24,7 @@ export class UserService {
     return this.http
       .get<User[]>(`http://localhost:3000/users?email=${email}`)
       .pipe(
-        tap(console.log),
+        // tap(console.log),
         map((users) => {
           return users[0];
         }),
