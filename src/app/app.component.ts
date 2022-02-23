@@ -37,8 +37,10 @@ export class AppComponent implements OnInit {
             userData.phone,
             userData.website
           );
+          // user = { ...userData } as User;
           return user;
         }),
+
         concatMap((user) => {
           return this.albumService.getAllByUser(user.id);
         }),
