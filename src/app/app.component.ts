@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
     // subscription 2
     subject.subscribe((data) => {
-      console.log(data); // 0.24957144215097515(r same andom number)
+      console.log(data); // 0.24957144215097515(same random number)
     });
 
     subject.next(Math.random());
