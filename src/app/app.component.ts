@@ -1,8 +1,13 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { of } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
-import { concatMap, concatMapTo, first, map, tap } from 'rxjs/operators';
+import {
+  concatMap,
+  map,
+  mergeMap,
+} from 'rxjs/operators';
+import { Album } from './album.model';
 import { AlbumService } from './album.service';
 import { Photo } from './photo.model';
 import { PhotoService } from './photo.service';
@@ -25,8 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     let user: User;
     this.userService
-      .findByEmail('Sincere@april.biz')
-      // .findByEmail('Lucio_Hettinger@annie.ca')
+      .findByEmail('Lucio_Hettinger@annie.ca')
       .pipe(
         map((userData) => {
           user = new User(
@@ -37,7 +41,6 @@ export class AppComponent implements OnInit {
             userData.phone,
             userData.website
           );
-          // user = { ...userData } as User;
           return user;
         }),
 
@@ -48,12 +51,29 @@ export class AppComponent implements OnInit {
           user.albums = albums;
           return albums;
         }),
-        concatMap((albums) => {
-          const albumId = albums[0].id;
-          return this.photoService.getAllByAlbum(albumId);
+        mergeMap((albums: Album[]) => {
+          let photosByAlbum$ = albums.map((album: Album) => {
+            return this.photoService.getAllByAlbum(album.id);
+          });
+
+          let photosByAlbum = forkJoin(photosByAlbum$);
+          return photosByAlbum;
         }),
-        map((photos) => {
-          user.albums[0].photos = photos;
+        map((photosByAlbum) => {
+          console.log(photosByAlbum);
+          photosByAlbum.forEach((photoCollection: Photo[]) => {
+            photoCollection.forEach((photo: Photo) => {
+              const albumIndex = user.albums.findIndex((album) => {
+                return album.id == photo.albumId;
+              });
+              const currentAlbum = user.albums[albumIndex];
+              if (!currentAlbum.photos) {
+                currentAlbum.photos = [];
+              }
+              currentAlbum.photos.push(photo);
+            });
+          });
+
           return user;
         })
       )

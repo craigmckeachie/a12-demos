@@ -3,4 +3,5 @@ export class Photo {
   title?: string | null;
   url?: string | null;
   thumbnailUrl?: string | null;
+  albumId: number = 0;
 }
