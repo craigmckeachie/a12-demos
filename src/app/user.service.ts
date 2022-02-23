@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, first } from 'rxjs/operators';
+import { catchError, filter, first, map, take, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
 @Injectable({
@@ -20,11 +20,14 @@ export class UserService {
   //   );
   // }
 
-  findByEmail(email: string): Observable<User[]> {
+  findByEmail(email: string): Observable<User> {
     return this.http
       .get<User[]>(`http://localhost:3000/users?email=${email}`)
       .pipe(
-        first(),
+        tap(console.log),
+        map((users) => {
+          return users[0];
+        }),
         catchError((error: HttpErrorResponse) => {
           console.log(error);
           return throwError('An error occured loading the user.');

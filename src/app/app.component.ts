@@ -2,7 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { of } from 'rxjs';
 
-import { concatMap, concatMapTo, first, tap } from 'rxjs/operators';
+import { concatMap, concatMapTo, first, map, tap } from 'rxjs/operators';
 import { AlbumService } from './album.service';
 import { Photo } from './photo.model';
 import { PhotoService } from './photo.service';
@@ -23,23 +23,29 @@ export class AppComponent implements OnInit {
     private photoService: PhotoService
   ) {}
   ngOnInit(): void {
+    let data: any = {};
     this.userService
       // .findByEmail('Sincere@april.biz')
       .findByEmail('Lucio_Hettinger@annie.ca')
       .pipe(
-        first(),
-        tap((users) => console.log(users)),
-        concatMap((users) => {
-          const userId = users[0].id;
-          console.log(userId);
-          return this.albumService.getAllByUser(userId);
-          // return of(user);
+        map((user) => {
+          data.user = user;
+          return user;
         }),
-        tap((albums) => console.log(albums)),
+        concatMap((user) => {
+          return this.albumService.getAllByUser(user.id);
+        }),
+        map((albums) => {
+          data.user.albums = albums;
+          return albums;
+        }),
         concatMap((albums) => {
           const albumId = albums[0].id;
-          console.log(albumId);
           return this.photoService.getAllByAlbum(albumId);
+        }),
+        map((photos) => {
+          data.user.albums[0].photos = photos;
+          return data;
         })
       )
       .subscribe((data) => console.log(data));
