@@ -17,7 +17,7 @@ export class PhotoService {
       // retry(3)
       retryWhen((error) => {
         return error.pipe(
-          delay(1000),
+          delay(5000),
           take(5),
           // tap(() => console.log(error)),
           (o) => concat(o, throwError('An error occurred loading the photos.'))
